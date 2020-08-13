@@ -12,6 +12,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -44,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseFirestore
                 .collection("users")
                 .document(email)
-                .set(new UserModel(name, email))
+                .set(new UserModel(name, email, getTime()))
                 .addOnSuccessListener(runnable -> {
                     firebaseAuth
                             .createUserWithEmailAndPassword(email, pw)
@@ -55,5 +59,9 @@ public class RegisterActivity extends AppCompatActivity {
                             .addOnFailureListener(e -> Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT));
                 })
         .addOnFailureListener(e -> Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT));
+    }
+    private String getTime(){
+        return new SimpleDateFormat("yyyy/MM/dd hh:mm aa", Locale.ENGLISH).format(new Date());
+
     }
 }

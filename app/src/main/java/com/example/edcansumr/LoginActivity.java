@@ -15,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
     private ActivityLoginBinding binding;
 
     @Override
@@ -27,26 +28,37 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLoginSignin.setOnClickListener(view -> {
             login(binding.getEmail(), binding.getPw());
         });
+
         binding.btnLoginSignup.setOnClickListener(view -> {
-            startActivity(new Intent (LoginActivity.this, RegisterActivity.class));
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
+
+
     }
+
     private void login(String email, String pw){
+
+        if (email.isEmpty() || pw.isEmpty()) {
+            Toast.makeText(this, "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         firebaseFirestore
-            .collection("users")
-                .document()
+                .collection("users")
+                .document(email)
                 .get()
-                .addOnSuccessListener(runnable -> {
+                .addOnSuccessListener(document -> {
                     firebaseAuth
                             .signInWithEmailAndPassword(email, pw)
                             .addOnSuccessListener(runnable1 -> {
-                                //goto main
+                                UserCache.setUser(this, document.toObject(UserModel.class));
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             })
-                            .addOnFailureListener(e -> Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT));
+                            .addOnFailureListener(e ->
+                                    Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT));
+                .addOnFailureListener(e -> Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
 
     }
 }

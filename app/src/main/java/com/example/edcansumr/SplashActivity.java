@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SplashActivity extends AppCompatActivity {
+
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +22,11 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+
+            if(firebaseAuth.getCurrentUser()!=null && UserCache.getUser(this) !=null)
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            else
+                startActivity(new Intent ( SplashActivity.this, LoginActivity.class));
             finish();
         }, 1500);
     }
