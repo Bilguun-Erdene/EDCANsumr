@@ -22,7 +22,9 @@ public class NewMemoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_memo);
-        binding.setMemo("");
+
+        binding.setMemo(getIntent().getStringExtra("memo_text"));
+        binding.setIsEdit(getIntent().getBooleanExtra("is_edit", false));
 
         binding.toolbarNewMemo.setNavigationOnClickListener(view -> finish());
 
@@ -36,15 +38,26 @@ public class NewMemoActivity extends AppCompatActivity {
             model.setEmail(UserCache.getUser(this).getEmail());
             model.setText(binding.getMemo());
             model.setTime(getTime());
-            firebaseFirestore
-                    .collection("memo")
-                    .document()
-                    .set(model)
-                    .addOnSuccessListener(runnable -> {
-                        Toast.makeText(this, "Uploaded Successfilly", Toast.LENGTH_SHORT).show();
-                        finish();
-                    })
-                    .addOnFailureListener(e -> Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+
+            if(!getIntent().getBooleanExtra("is_edit", false)){
+                firebaseFirestore
+                        .collection("memo")
+                        .document()
+                        .set(model)
+                        .addOnSuccessListener(runnable -> {
+                            Toast.makeText(this, "Uploaded Successfilly", Toast.LENGTH_SHORT).show();
+                            finish();
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show(
+
+                        ));
+            }
+            else{
+                Toast.makeText(this, "couldn't edit", Toast.LENGTH_SHORT).show();
+
+            }
+
+
         });
     }
     private String getTime(){
