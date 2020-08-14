@@ -17,55 +17,81 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.airbnb.lottie.LottieAnimationView
+            app:lottie_rawRes="@raw/cat"
+            android:id="@+id/lottieAnimationView2"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:layout_constraintBottom_toTopOf="@id/constraint_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="24dp"
+            android:id="@+id/constraint_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView2">
 
             <EditText
-                android:text="@={email}"
                 android:id="@+id/edt_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:background="@drawable/shape"
+                android:fontFamily="@font/apple_sd_gothic_neo_r"
+                android:hint="이메일"
                 android:inputType="textEmailAddress"
+                android:padding="16dp"
+                android:text="@={email}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:text="@={pw}"
-                android:layout_marginTop="8dp"
                 android:id="@+id/edt_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape"
+                android:fontFamily="@font/apple_sd_gothic_neo_r"
+                android:hint="비밀번호"
                 android:inputType="textPassword"
+                android:padding="16dp"
+                android:text="@={pw}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.333"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_login_email" />
 
             <Button
-                android:layout_marginTop="8dp"
                 android:id="@+id/btn_login_signin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="sign in"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/design_default_color_primary"
+                android:fontFamily="@font/apple_sd_gothic_neo_h"
+                android:text="로그인"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_login_password" />
 
             <Button
-                android:layout_marginTop="8dp"
                 android:id="@+id/btn_login_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="sign up"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_radius"
+                android:fontFamily="@font/apple_sd_gothic_neo_h"
+                android:text="회원가입"
+                android:textColor="@color/design_default_color_primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_login_signin" />
